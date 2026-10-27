@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const navigation = [
@@ -8,8 +8,42 @@ const navigation = [
   { label: 'Voice Insights', icon: '⌁' },
 ]
 
+const MAX_SCREENSHOT_SIZE = 10 * 1024 * 1024
+const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
+
 function App() {
   const [activePage, setActivePage] = useState('Overview')
+  const [screenshot, setScreenshot] = useState(null)
+  const [uploadError, setUploadError] = useState('')
+  const fileInputRef = useRef(null)
+
+  useEffect(() => () => {
+    if (screenshot?.url) URL.revokeObjectURL(screenshot.url)
+  }, [screenshot])
+
+  function handleScreenshotChange(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      setUploadError('Choose a PNG, JPEG, or WebP image.')
+      return
+    }
+    if (file.size > MAX_SCREENSHOT_SIZE) {
+      setUploadError('This image is larger than 10 MB. Choose a smaller file.')
+      return
+    }
+
+    setUploadError('')
+    setScreenshot({ file, url: URL.createObjectURL(file) })
+  }
+
+  function removeScreenshot() {
+    setScreenshot(null)
+    setUploadError('')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
 
   return (
     <div className="app-shell">
@@ -39,6 +73,39 @@ function App() {
       <main className="main-content" id="overview">
         <header className="topbar"><div className="breadcrumbs">Workspace <span>/</span> <strong>{activePage}</strong></div><div className="top-actions"><span className="demo-pill"><i /> DEMO MODE</span><button className="icon-button" aria-label="Notifications">♧<b /></button><div className="top-avatar">J</div></div></header>
 
+        {activePage === 'Stream Analysis' ? (
+          <section className="screenshot-page" aria-labelledby="screenshot-title">
+            <div className="screenshot-heading">
+              <div className="eyebrow"><span className="eyebrow-line" /> STREAM ANALYSIS</div>
+              <h1 id="screenshot-title">Review a game screenshot</h1>
+              <p className="welcome-copy">Choose a screenshot from your computer to preview it here.</p>
+            </div>
+            <article className="panel upload-panel">
+              <div className="panel-header">
+                <div><div className="panel-kicker">SCREENSHOT UPLOAD</div><h2>Game screenshot</h2><p>PNG, JPEG, or WebP · Up to 10 MB</p></div>
+                <span className="panel-demo">LOCAL PREVIEW</span>
+              </div>
+              {screenshot ? (
+                <div className="screenshot-preview-wrap">
+                  <img className="screenshot-preview" src={screenshot.url} alt={`Preview of ${screenshot.file.name}`} />
+                  <div className="screenshot-file-row"><span className="screenshot-filename" title={screenshot.file.name}>{screenshot.file.name}</span><button className="remove-screenshot" type="button" onClick={removeScreenshot}>Remove image</button></div>
+                </div>
+              ) : (
+                <label className="upload-dropzone" htmlFor="game-screenshot">
+                  <span className="upload-glyph" aria-hidden="true">↑</span>
+                  <strong>Select a screenshot</strong>
+                  <span>Browse files on your computer</span>
+                  <span className="upload-button">Choose image</span>
+                </label>
+              )}
+              <input ref={fileInputRef} id="game-screenshot" className="screenshot-input" type="file" accept="image/png,image/jpeg,image/webp" onChange={handleScreenshotChange} aria-describedby={uploadError ? 'upload-error' : 'upload-help'} />
+              <p id="upload-help" className="upload-help">Your image is only previewed in this browser. It is not uploaded or analyzed.</p>
+              {uploadError && <p id="upload-error" className="upload-error" role="alert">{uploadError}</p>}
+              <div className="analysis-unavailable"><span>AI screenshot analysis</span><button type="button" disabled>Coming soon</button></div>
+            </article>
+          </section>
+        ) : (
+          <>
         <section className="welcome-row">
           <div><div className="eyebrow"><span className="eyebrow-line" /> YOUR CREATOR DASHBOARD</div><h1>Your stream, <span>understood.</span></h1><p className="welcome-copy">A clearer view of what’s working and where to go next.</p></div>
           <button className="date-button"><span>▦</span> Last 7 days <span className="chevron">⌄</span></button>
@@ -70,6 +137,9 @@ function App() {
             <button className="text-link activity-link">View all demo activity <span>→</span></button>
           </article>
         </section>
+
+          </>
+        )}
 
         <footer>StreamSense AI <span>·</span> Preview dashboard <span className="footer-right">Sample data only · No account connected</span></footer>
       </main>

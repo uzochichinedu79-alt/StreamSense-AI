@@ -18,3 +18,25 @@
 @media (max-width: 1100px) { .main-content { padding-inline: 28px; }.sidebar { width: 218px; }.main-content { margin-left: 218px; }.content-grid { grid-template-columns: 1fr; }.coaching-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }.coaching-item:nth-child(2) { border-top: 1px solid #282530; } }
 @media (max-width: 760px) { .sidebar { position: sticky; top: 0; width: 100%; height: auto; min-height: 58px; padding: 12px 16px 9px; border-right: 0; border-bottom: 1px solid #272431; display: block; background: #100f18f5; }.brand { display: inline-flex; }.brand-mark { width: 27px; height: 27px; }.workspace-label,.sidebar-bottom { display: none; }.nav-list { display: flex; overflow-x: auto; gap: 3px; margin-top: 10px; scrollbar-width: none; }.nav-list::-webkit-scrollbar { display:none; }.nav-item { white-space: nowrap; width: auto; padding: 8px 10px; font-size: 10px; }.nav-icon { font-size: 14px; }.nav-active-dot { display:none; }.main-content { margin: 0; padding: 0 18px 20px; }.topbar { height: 52px; }.welcome-row { align-items: flex-start; gap: 15px; flex-direction: column; margin: 25px 0 17px; }.welcome-row h1 { font-size: clamp(27px,7vw,36px); }.welcome-copy { font-size: 11px; }.date-button { align-self: flex-start; }.demo-notice { align-items: flex-start; font-size: 9px; line-height: 1.55; }.demo-notice button { line-height: 12px; }.metrics-grid { grid-template-columns: 1fr; gap: 10px; }.metric-card { min-height: 130px; }.content-grid { margin-top: 14px; gap: 12px; }.panel { padding: 16px 14px 13px; }.coaching-list { display: block; }.activity-summary { padding: 11px 8px; }.activity-big strong { font-size: 15px; }.activity-big>span { font-size: 6px; }.stream-row,.activity-head { grid-template-columns: 1fr 48px 72px; }.footer-right { text-align: right; } }
 @media (prefers-reduced-motion: no-preference) { .nav-item,.date-button,.text-link { transition: background .2s ease,color .2s ease,border-color .2s ease; } .text-link:hover { color: #d0bfff; } }
+
+.screenshot-page { max-width: 900px; margin: 35px auto 0; }
+.screenshot-heading { margin-bottom: 22px; }
+.screenshot-heading h1 { margin: 0; color: #f3f0fb; font: 600 clamp(28px,3.2vw,39px)/1.16 'Manrope',sans-serif; letter-spacing: -1.5px; }
+.upload-panel { padding: 22px; }
+.upload-panel .panel-header { margin-bottom: 18px; }
+.upload-dropzone { min-height: 230px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; border: 1px dashed #51466f; border-radius: 9px; background: #15131d; color: #8f899f; font-size: 11px; cursor: pointer; text-align: center; }
+.upload-dropzone strong { color: #e2ddec; font-size: 13px; }
+.upload-glyph { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 3px; border-radius: 10px; background: #29213c; color: #b39bff; font-size: 22px; }
+.upload-button,.remove-screenshot { padding: 8px 12px; border: 1px solid #493a6b; border-radius: 6px; background: #2b2141; color: #c7b5ff; font: inherit; font-size: 10px; }
+.screenshot-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); }
+.screenshot-input:focus-visible + .upload-help { outline: 2px solid #a38bff; }
+.screenshot-preview-wrap { overflow: hidden; border: 1px solid #302c3a; border-radius: 8px; background: #0f0e15; }
+.screenshot-preview { display: block; width: 100%; max-height: 480px; object-fit: contain; }
+.screenshot-file-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 13px; border-top: 1px solid #302c3a; }
+.screenshot-filename { overflow: hidden; color: #d7d2e1; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.remove-screenshot { flex: 0 0 auto; background: transparent; cursor: pointer; }
+.upload-help,.upload-error { margin: 12px 0 0; color: #827d91; font-size: 10px; line-height: 1.5; }
+.upload-error { color: #ff9a9a; }
+.analysis-unavailable { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #292633; color: #aaa4b7; font-size: 11px; }
+.analysis-unavailable button { padding: 8px 11px; border: 1px solid #373241; border-radius: 6px; background: #211e29; color: #8d8799; font: inherit; font-size: 10px; }
+@media (max-width: 760px) { .screenshot-page { margin-top: 25px; }.upload-panel { padding: 16px 14px; }.upload-dropzone { min-height: 190px; }.screenshot-file-row { align-items: flex-start; flex-direction: column; }.remove-screenshot { align-self: flex-start; } }
